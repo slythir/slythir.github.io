@@ -1,17 +1,56 @@
-.test-class {
-	font-size: 20px;
-
-	color: gray;
+html, body {
+	margin: 0;
 }
 
+.container {
+	height: 100vh;
+	border: 3px;
+	box-sizing: border-box;
+
+	display: grid;
+	grid-template-rows: min-content auto;
+	grid-template-columns: min-content auto min-content;
+}
+
+.banner {
+	grid-column: 1 / -1;
+
+	height: 40px;
+
+	display: flex;
+	align-items: center;
+	justify-content: left;
+
+	font-size: 20px;
+	font-family: sans-serif;
+	/* font-weight: bold; */
+	background-color: #080808;
+	color: #EA7E0B;
+	border-bottom: 2px solid #8E4C06;
+}
+
+.banner span {
+	transform: translate(10px, 0px);
+}
+
+#course-panel {
+	grid-row: 2;
+	grid-column: 1;
+}
+
+#user_tree_wrapper {
+	grid-row: 2;
+	grid-column: 2;
+}
+
+#degree-panel {
+	grid-row: 2;
+	grid-column: 3;
+}
+
+
 .draggable-wrapper {
-	position: absolute;
-	top: 200px;
-	left: 200px;
-	height: 500px;
-	width: 500px;
-	
-	border: 2px black solid;
+	position: relative;
 	overflow: hidden;
 }
 
@@ -23,8 +62,10 @@
 	min-width: 100%;
 	min-height: 100%;
 
+	/* scale: 3; */
+
 	cursor: grab;
-	background-image: url('gfx/user_tree_bg.jpg');
+	background-image: url('gfx/user_tree_bg.png');
 	color: white;
 }
 
@@ -34,3 +75,25 @@
 
 	border: 2px solid cornflowerblue;
 }
+
+.panel {
+	background-color: #080808;
+	color: #EA7E0B;
+}
+
+.course-node-list {
+	border: 2px solid #8E4C06;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.applied-course {
+	position: relative;
+	display: flex;
+}
+
+.addrem {
+	position: absolute;
+	right: 0px;
+}
+

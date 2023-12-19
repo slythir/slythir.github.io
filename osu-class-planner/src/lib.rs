@@ -16,19 +16,11 @@ static DRAG_POS: Lazy<Mutex<Draggable>> = Lazy::new(|| Mutex::new(Draggable::new
 
 #[wasm_bindgen]
 pub fn load() {
+	setup_draggable();
+}
 
-	// get document
-	let window = web_sys::window().unwrap();
-	let document = window.document().unwrap();
-	let body = document.body().unwrap();
-
-	// new div
-	let div = document.create_element("div").expect("Error creating div");
-	div.set_class_name("test-class");
-	div.set_inner_html("Dynamic div!");
-	body.append_child(&div).expect("Error appending child");
-
-	// set up the draggable interactions:
+fn setup_draggable() {
+	let document = web_sys::window().unwrap().document().unwrap();
 
 	// mouse down
 	let mousedown: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|event: MouseEvent| {

@@ -8,31 +8,149 @@
 	</head>
 	<body>
 		<script type="module">
-			import init, {
-				load
-				// more...
-			} from "./pkg/osu_class_planner.js";
+			import init, { load } from "./pkg/osu_class_planner.js";
 			await init();
 			load();
-			
-			// functions
-			//window.incriment_counter = function() { incriment_counter(); };
 		</script>
 
-		<div>Static div..</div>
-		<span id="button-count">0</span>
+		<div class="container">
 
-		<div id="user_tree_wrapper" class="draggable-wrapper">
-			<div id="user_tree" class="draggable">
-				<div class="inner-draggable">elem 1</div>
-				<div class="inner-draggable">elem 2</div>
-				<div class="inner-draggable">elem 3</div>
-				<div class="inner-draggable">elem 4</div>
-				<div class="inner-draggable">elem 5</div>
-				<div class="inner-draggable">elem 6</div>
-				<div class="inner-draggable">elem 7</div>
-				<div class="inner-draggable">elem 8</div>
-				<div class="inner-draggable" style="margin-left: 1500px; margin-top: 1000px;">elem 9</div>
+			<header class="banner">
+				<span>OSU Course Planner</span>
+			</header>
+
+			<div id="course-panel" class="panel">
+				<div id="active-courses">
+					<span>Course Nodes</span>
+					<div class="course-node-list">
+						<div id="course-001" class="applied-course">
+							<span class="course-name">CS 261</span>
+							<div class="remove addrem">+</div>
+						</div>
+						<div id="course-002" class="applied-course">
+							<span class="course-name">MTH 342</span>
+							<div class="remove addrem">+</div>
+						</div>
+						<div id="course-003" class="applied-course">
+							<span class="course-name">PH 212</span>
+							<div class="remove addrem">+</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="search-courses">
+					<span>Search Courses</span>
+					<form id="class-form">
+						<input id="keyword" />
+						<select id="subject">
+							<option value="mth">MTH</option>
+							<option value="cs">CS</option>
+						</select>
+					</form>
+					<div class="course-node-list">
+						<div id="course-004" class="applied-course">
+							<span class="course-name">CS 261</span>
+							<div class="remove addrem">+</div>
+						</div>
+						<div id="course-005" class="applied-course">
+							<span class="course-name">MTH 342</span>
+							<div class="remove addrem">+</div>
+						</div>
+						<div id="course-006" class="applied-course">
+							<span class="course-name">PH 212</span>
+							<div class="remove addrem">+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="user_tree_wrapper" class="draggable-wrapper">
+				<div id="user_tree" class="draggable">
+					<div class="inner-draggable">elem 1</div>
+					<div class="inner-draggable">elem 2</div>
+					<div class="inner-draggable">elem 3</div>
+					<div class="inner-draggable">elem 4</div>
+					<div class="inner-draggable">elem 5</div>
+					<div class="inner-draggable">elem 6</div>
+					<div class="inner-draggable">elem 7</div>
+					<div class="inner-draggable">elem 8</div>
+					<div class="inner-draggable" style="margin-left: 4000px; margin-top: 4000px;">elem 9</div>
+				</div>
+			</div>
+
+			<div id="degree-panel" class="panel">
+
+				<div id="active-degrees">
+					<span>Degrees</span>
+					<div class="degrees-list">
+						<div id="degree-001" class="applied-degree">
+							<div class="degree-pin">+</div>
+							<div class="degree-addrem">o</div>
+							<span class="degree-name">Comp Sci Major</span>
+							<div class="expander">></div>
+							<div class="degree-requirements">
+								<div class="course-node-list">
+									<div id="deg-course-001" class="applied-course">
+										<div class="remove addrem">+</div>
+										<span class="course-name">CS 261</span>
+									</div>
+									<div id="deg-course-002" class="applied-course">
+										<div class="remove addrem">+</div>
+										<span class="course-name">MTH 342</span>
+									</div>
+									<div id="deg-course-003" class="applied-course">
+										<div class="remove addrem">+</div>
+										<span class="course-name">PH 212</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="degree-002" class="applied-degree">
+							<div class="degree-pin">+</div>
+							<div class="degree-addrem">o</div>
+							<span class="degree-name">Math Minor</span>
+							<div class="expander">></div>
+							<div class="degree-requirements">
+								<div class="course-node-list">
+									<div id="deg-course-004" class="applied-course">
+										<div class="remove addrem">+</div>
+										<span class="course-name">CS 261</span>
+									</div>
+									<div id="deg-course-005" class="applied-course">
+										<div class="remove addrem">+</div>
+										<span class="course-name">MTH 342</span>
+									</div>
+									<div id="deg-course-006" class="applied-course">
+										<div class="remove addrem">+</div>
+										<span class="course-name">PH 212</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="search-degrees">
+					<span>Search Degrees</span>
+					<form id="degree-form">
+						<select id="subject">
+							<option value="mth_m">Math Major</option>
+							<option value="cs_m">Comp Sci Major</option>
+							<option value="mth_n">Math Minor</option>
+						</select>
+					</form>
+
+					<div class="degree-list">
+						<div id="search-degree-001" class="search-degree">
+							<div class="remove addrem">+</div>
+							<span class="degree-name">Math Minor</span>
+						</div>
+						<div id="search-degree-002" class="search-degree">
+							<div class="remove addrem">+</div>
+							<span class="course-name">Comp Sci Major</span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 

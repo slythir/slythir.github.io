@@ -40,8 +40,7 @@ impl Draggable {
 			let elem_pos = self.get_elem_pos(event);
 			let transform = format!("transform: translate({}px, {}px)", elem_pos.0, elem_pos.1);
 
-			let elem =
-				window().unwrap()
+			let elem = window().unwrap()
 				.document().unwrap()
 				.get_element_by_id("user_tree_wrapper").expect("user_tree_wrapper should exist")
 				.query_selector("#user_tree").expect("query_selector failed").expect("user_tree should exist");
