@@ -1,0 +1,14 @@
+{
+  "name": "osu-class-planner",
+  "version": "0.1.0",
+  "files": [
+    "osu_class_planner_bg.wasm",
+    "osu_class_planner.js",
+    "osu_class_planner.d.ts"
+  ],
+  "module": "osu_class_planner.js",
+  "types": "osu_class_planner.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
