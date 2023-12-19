@@ -9,18 +9,32 @@
 	<body>
 		<script type="module">
 			import init, {
-				load,
-				incriment_counter,
+				load
 				// more...
 			} from "./pkg/osu_class_planner.js";
 			await init();
 			load();
 			
 			// functions
-			window.incriment_counter = function() { incriment_counter(); };
+			//window.incriment_counter = function() { incriment_counter(); };
 		</script>
 
-		<div>Static div...</div>
+		<div>Static div..</div>
 		<span id="button-count">0</span>
+
+		<div id="user_tree_wrapper" class="draggable-wrapper">
+			<div id="user_tree" class="draggable">
+				<div class="inner-draggable">elem 1</div>
+				<div class="inner-draggable">elem 2</div>
+				<div class="inner-draggable">elem 3</div>
+				<div class="inner-draggable">elem 4</div>
+				<div class="inner-draggable">elem 5</div>
+				<div class="inner-draggable">elem 6</div>
+				<div class="inner-draggable">elem 7</div>
+				<div class="inner-draggable">elem 8</div>
+				<div class="inner-draggable" style="margin-left: 1500px; margin-top: 1000px;">elem 9</div>
+			</div>
+		</div>
+
 	</body>
 </html>

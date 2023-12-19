@@ -1,4 +1,36 @@
 .test-class {
-	color: gray;
 	font-size: 20px;
+
+	color: gray;
+}
+
+.draggable-wrapper {
+	position: absolute;
+	top: 200px;
+	left: 200px;
+	height: 500px;
+	width: 500px;
+	
+	border: 2px black solid;
+	overflow: hidden;
+}
+
+.draggable {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	min-width: 100%;
+	min-height: 100%;
+
+	cursor: grab;
+	background-image: url('gfx/user_tree_bg.jpg');
+	color: white;
+}
+
+.inner-draggable {
+	width: 100px;
+	font-size: 40px;
+
+	border: 2px solid cornflowerblue;
 }

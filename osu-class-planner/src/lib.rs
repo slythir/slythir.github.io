@@ -1,13 +1,18 @@
+mod draggable;
+
 extern crate wasm_bindgen;
 extern crate web_sys;
 extern crate once_cell;
 
-use std::sync::{Mutex, MutexGuard};
+use draggable::Draggable;
 
-use wasm_bindgen::prelude::*;
+use std::sync::Mutex;
+use wasm_bindgen::{prelude::*, JsCast};
 use once_cell::sync::Lazy;
+use web_sys::MouseEvent;
 
-static BTN_COUNT: Lazy<Mutex<u64>> = Lazy::new(|| { Mutex::new(0) });
+// TODO: find a better solution for storing the dragable element's data
+static DRAG_POS: Lazy<Mutex<Draggable>> = Lazy::new(|| Mutex::new(Draggable::new()));
 
 #[wasm_bindgen]
 pub fn load() {
@@ -23,28 +28,31 @@ pub fn load() {
 	div.set_inner_html("Dynamic div!");
 	body.append_child(&div).expect("Error appending child");
 
-	// new button
-	let btn = document.create_element("button").expect("Error creating button");
-	btn.set_inner_html("Click me!");
-	btn.set_attribute("onclick", "incriment_counter()").expect("Error setting attribute");
-    body.append_child(&btn).expect("Error appending child");
-}
+	// set up the draggable interactions:
 
-#[wasm_bindgen]
-pub fn incriment_counter() {
+	// mouse down
+	let mousedown: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|event: MouseEvent| {
+		let mut draggable = DRAG_POS.lock().unwrap();
+		(*draggable).on_mouse_down(event);
+	}));
+	
+	let elem = document.get_element_by_id("user_tree_wrapper").unwrap().query_selector("#user_tree").expect("user_tree should exist").unwrap();
+	elem.add_event_listener_with_callback("mousedown", mousedown.as_ref().unchecked_ref()).expect("Error adding event listener");
+	mousedown.forget();
 
-	// incriment counter
-	let mut count = get_button_counter();
-	*count += 1;
+	// mouse up
+	let mouseup: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|event: MouseEvent| {
+		let mut draggable = DRAG_POS.lock().unwrap();
+		(*draggable).on_mouse_up(event);
+	}));
+	document.add_event_listener_with_callback("mouseup", mouseup.as_ref().unchecked_ref()).expect("Error adding event listener");
+	mouseup.forget();
 
-	// update display
-	let doc = web_sys::window().unwrap().document().unwrap();
-	let span_disp = doc.get_element_by_id("button-count").unwrap();
-	span_disp.set_inner_html(&count.to_string());
-}
-
-// just here to test calling functions from other functions
-fn get_button_counter<'a>() -> MutexGuard<'a, u64> {
-	let count = BTN_COUNT.lock().unwrap();
-	count
+	// mouse move
+	let mousemove: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|event: MouseEvent| {
+		let mut draggable = DRAG_POS.lock().unwrap();
+		(*draggable).on_mouse_move(event);
+	}));
+	document.add_event_listener_with_callback("mousemove", mousemove.as_ref().unchecked_ref()).expect("Error adding event listener");
+	mousemove.forget();
 }

@@ -7,5 +7,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wasm-bindgen = "0.2.89"
-web-sys = { version = "0.3.66", features = ["Window", "Document", "HtmlElement", "Event"] }
+web-sys = { version = "0.3.66", features = ["Window", "Document", "HtmlElement", "Event", "console", "MouseEvent"] }
 once_cell = "1.19.0"
