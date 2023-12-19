@@ -8,11 +8,19 @@
 	</head>
 	<body>
 		<script type="module">
-			import init, { load } from "./pkg/osu_class_planner.js";
+			import init, {
+				load,
+				incriment_counter,
+				// more...
+			} from "./pkg/osu_class_planner.js";
 			await init();
 			load();
+			
+			// functions
+			window.incriment_counter = function() { incriment_counter(); };
 		</script>
 
 		<div>Static div...</div>
+		<span id="button-count">0</span>
 	</body>
 </html>
