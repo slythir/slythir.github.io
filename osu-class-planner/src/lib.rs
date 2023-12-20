@@ -1,50 +1,49 @@
-mod draggable;
+mod courses;
 
 extern crate wasm_bindgen;
 extern crate web_sys;
 extern crate once_cell;
 
-use draggable::Draggable;
-
 use std::sync::Mutex;
+use courses::{course_manager::CourseManager, course_tree::CourseTree};
 use wasm_bindgen::{prelude::*, JsCast};
 use once_cell::sync::Lazy;
-use web_sys::MouseEvent;
+use web_sys::{MouseEvent, window};
 
-// TODO: find a better solution for storing the dragable element's data
-static DRAG_POS: Lazy<Mutex<Draggable>> = Lazy::new(|| Mutex::new(Draggable::new()));
+// list of every course
+static COURSES: Lazy<CourseManager> = Lazy::new(|| CourseManager::new());
+
+// course tree manager
+static COURSE_TREE: Lazy<Mutex<CourseTree>> = Lazy::new(|| Mutex::new(CourseTree::new()));
 
 #[wasm_bindgen]
 pub fn load() {
-	setup_draggable();
+
+	// TODO: Remove
+	// test adding nodes to the tree
+	let mth_321 = COURSES.get_course(&"mth-321".to_string()).unwrap();
+	let cs_123 = COURSES.get_course(&"cs-123".to_string()).unwrap();
+
+	let mut ct = COURSE_TREE.lock().unwrap();
+	ct.add_course(mth_321.clone());
+	ct.add_course(cs_123.clone());
+
+	// TODO: clean this up (put inside its own node maker thing, do for every course)
+	start_course_adder();
 }
 
-fn setup_draggable() {
-	let document = web_sys::window().unwrap().document().unwrap();
+// TODO: clean this up (put inside its own node maker thing, do for every course)
+fn start_course_adder() {
 
-	// mouse down
-	let mousedown: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|event: MouseEvent| {
-		let mut draggable = DRAG_POS.lock().unwrap();
-		(*draggable).on_mouse_down(event);
-	}));
-	
-	let elem = document.get_element_by_id("user_tree_wrapper").unwrap().query_selector("#user_tree").expect("user_tree should exist").unwrap();
-	elem.add_event_listener_with_callback("mousedown", mousedown.as_ref().unchecked_ref()).expect("Error adding event listener");
-	mousedown.forget();
+	// Add node when the user clicks "+" on "CS 261"
+	let document = window().unwrap().document().unwrap();
+	let addrem_cs_261 = document.get_element_by_id("addrem-course-cs-261").unwrap();
 
-	// mouse up
-	let mouseup: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|event: MouseEvent| {
-		let mut draggable = DRAG_POS.lock().unwrap();
-		(*draggable).on_mouse_up(event);
+	let add_cs_261: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|_event| {
+		let mut ct = COURSE_TREE.lock().unwrap();
+		let cs_261 = COURSES.get_course(&"cs-261".to_string()).unwrap();
+		(*ct).add_course(cs_261.clone());
 	}));
-	document.add_event_listener_with_callback("mouseup", mouseup.as_ref().unchecked_ref()).expect("Error adding event listener");
-	mouseup.forget();
-
-	// mouse move
-	let mousemove: Closure<dyn FnMut(MouseEvent)> = Closure::new(Box::new(|event: MouseEvent| {
-		let mut draggable = DRAG_POS.lock().unwrap();
-		(*draggable).on_mouse_move(event);
-	}));
-	document.add_event_listener_with_callback("mousemove", mousemove.as_ref().unchecked_ref()).expect("Error adding event listener");
-	mousemove.forget();
+	addrem_cs_261.add_event_listener_with_callback("click", add_cs_261.as_ref().unchecked_ref()).expect("failed to add listener");
+	add_cs_261.forget();
 }

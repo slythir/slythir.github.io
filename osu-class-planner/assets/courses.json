@@ -1,0 +1,23 @@
+[
+	{
+		"subject": "CS",
+		"number": 123,
+		"prerequisites": [],
+		"name": "Intro to Computer Science I",
+		"description": "Introductory course."
+	},
+	{
+		"subject": "MTH",
+		"number": 321,
+		"prerequisites": [],
+		"name": "Linear Algebra I",
+		"description": "Introductory course to linear algebra."
+	},
+	{
+		"subject": "CS",
+		"number": 261,
+		"prerequisites": ["cs-123", "mth-321"],
+		"name": "Data Structures",
+		"description": "Learn about the architecture, doing hashmaps and arrays. Taught in C."
+	}
+]

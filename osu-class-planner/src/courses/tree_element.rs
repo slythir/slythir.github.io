@@ -1,6 +1,9 @@
 use web_sys::{MouseEvent, window};
 
-pub struct Draggable {
+const USER_TREE_ID: &str = "user-tree";
+const USER_TREE_WRAPPER_ID: &str = "user-tree-wrapper";
+
+pub struct TreeElement {
 	elem_x: i32,
 	elem_y: i32,
 	grab_x: i32,
@@ -8,7 +11,7 @@ pub struct Draggable {
 	dragging: bool,
 }
 
-impl Draggable {
+impl TreeElement {
 
 	pub fn new() -> Self {
 		Self {
@@ -33,33 +36,31 @@ impl Draggable {
 		}
 	}
 
-	// TODO: store elem somewhere to get faster
+	// TODO: keep the grid settings in the style update
 	pub fn on_mouse_move(&mut self, event: MouseEvent) {
 		if self.dragging {
 
 			let elem_pos = self.get_elem_pos(event);
 			let transform = format!("transform: translate({}px, {}px)", elem_pos.0, elem_pos.1);
 
-			let elem = window().unwrap()
-				.document().unwrap()
-				.get_element_by_id("user_tree_wrapper").expect("user_tree_wrapper should exist")
-				.query_selector("#user_tree").expect("query_selector failed").expect("user_tree should exist");
+			let elem = window().unwrap().document().unwrap().get_element_by_id(USER_TREE_ID).unwrap();
 			elem.set_attribute("style", &transform).unwrap();
 		}
 	}
 
-	// TODO: store wrap/drag somewhere to get faster
 	fn get_elem_pos(&self, event: MouseEvent) -> (i32, i32) {
 
-		let wrap = window().unwrap().document().unwrap().get_element_by_id("user_tree_wrapper").unwrap();
-		let drag = wrap.query_selector("#user_tree").expect("user_tree should exist").unwrap();
+		// get elements
+		let document = window().unwrap().document().unwrap();
+		let wrapper = document.get_element_by_id(USER_TREE_WRAPPER_ID).unwrap();
+		let drag = document.get_element_by_id(USER_TREE_ID).unwrap();
 
 		// calculate element position based on cursor position and where the element was grabbed
 		let mut elem_pos = (self.elem_x + event.client_x() - self.grab_x, self.elem_y + event.client_y() - self.grab_y);
 
-		// element bounds
-		let left_bound = wrap.client_width() - drag.client_width();
-		let top_bound = wrap.client_height() - drag.client_height();
+		// element bounds based on wrapper
+		let left_bound = wrapper.client_width() - drag.client_width();
+		let top_bound = wrapper.client_height() - drag.client_height();
 		if elem_pos.0 > 0 { elem_pos.0 = 0 }
 		if elem_pos.1 > 0 { elem_pos.1 = 0 }
 		if elem_pos.0 < left_bound { elem_pos.0 = left_bound }
